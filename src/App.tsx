@@ -3,6 +3,7 @@ import { useStore } from "./zustand/store.ts";
 
 import Header from "./layouts/Header.tsx";
 import Home from "./pages/Home.tsx";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
   const fetchRecipes = useStore((state) => state.fetchRecipes);
@@ -14,7 +15,9 @@ function App() {
   return (
     <>
       <Header />
-      <Home />
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
     </>
   );
 }

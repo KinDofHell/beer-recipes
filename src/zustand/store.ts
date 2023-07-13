@@ -17,6 +17,7 @@ type Store = {
   selectRecipe: (recipe: Recipe) => void;
   deselectRecipe: (recipe: Recipe) => void;
   deleteSelectedRecipes: () => void;
+  clear: () => void;
 };
 
 const recipesPerPage: number = 15;
@@ -87,5 +88,8 @@ export const useStore = create<Store>((set) => ({
       ),
       selectedRecipes: [],
     }));
+  },
+  clear: () => {
+    set({ selectedRecipes: [] });
   },
 }));

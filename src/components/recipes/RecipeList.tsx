@@ -1,7 +1,8 @@
 // RecipeList.tsx
 import { MouseEvent } from "react";
 import { useStore, Recipe } from "../../zustand/store.ts";
-import RecipeItem from "./RecipeItem.tsx"; // Import the Recipe type from the store
+import RecipeItem from "./RecipeItem.tsx";
+import DeleteButton from "../ui/buttons/DeleteButton.tsx"; // Import the Recipe type from the store
 
 const RecipeList = () => {
   const recipes = useStore((state: { recipes: Recipe[] }) => state.recipes); // Provide the correct type for state
@@ -10,6 +11,8 @@ const RecipeList = () => {
   ); // Provide the correct type for state
   const selectRecipe = useStore((state) => state.selectRecipe); // Keep the selectRecipe function as is
   const deselectRecipe = useStore((state) => state.deselectRecipe); // Keep the deselectRecipe function as is
+  const deleteRecipe = useStore((state) => state.deleteSelectedRecipes); //
+  const clear = useStore((state) => state.clear); // Access the clear function
 
   const handleRecipeClick = (
     event: MouseEvent<HTMLDivElement>,
@@ -26,26 +29,28 @@ const RecipeList = () => {
   };
 
   return (
-    <section className="w-full">
+    <section className="w-full flex flex-col items-center">
       {recipes.map((recipe) => (
-        <div
-          className="flex justify-center"
+        <RecipeItem
           key={recipe.id}
-          onClick={(event) => handleRecipeClick(event, recipe)}
-          style={{
-            backgroundColor: selectedRecipes.includes(recipe)
-              ? "lightblue"
-              : "transparent",
-          }}
-        >
-          <RecipeItem
-            key={recipe.id}
-            name={recipe.name}
-            description={recipe.description}
-            image_url={recipe.image_url}
-          />
-        </div>
+          id={recipe.id}
+          name={recipe.name}
+          description={recipe.description}
+          image_url={recipe.image_url}
+          onContextMenu={(event: MouseEvent<HTMLDivElement>) =>
+            handleRecipeClick(event, recipe)
+          }
+          isSelected={selectedRecipes.includes(recipe)}
+        />
       ))}
+      {selectedRecipes.length > 0 && (
+        <DeleteButton
+          onClick={() => {
+            deleteRecipe();
+            clear();
+          }}
+        />
+      )}
     </section>
   );
 };
