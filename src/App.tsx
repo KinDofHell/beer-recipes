@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "./zustand/store.ts";
 
 import Header from "./layouts/Header.tsx";
@@ -7,10 +7,16 @@ import { Route, Routes } from "react-router-dom";
 
 function App() {
   const fetchRecipes = useStore((state) => state.fetchRecipes);
+  const recipes = useStore((state) => state.recipes);
+
+  const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
-    fetchRecipes().then(() => console.log("Recipes loaded!"));
-  }, [fetchRecipes]);
+    if (recipes.length < 15) {
+      setPage(page + 1);
+      fetchRecipes(page).then(() => console.log("Recipes loaded!"));
+    }
+  }, [recipes]);
 
   return (
     <>

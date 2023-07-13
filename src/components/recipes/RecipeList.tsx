@@ -30,7 +30,7 @@ const RecipeList = () => {
 
   return (
     <section className="w-full flex flex-col items-center">
-      {recipes.map((recipe) => (
+      {recipes.slice(0, 15).map((recipe) => (
         <RecipeItem
           key={recipe.id}
           id={recipe.id}
@@ -45,6 +45,7 @@ const RecipeList = () => {
       ))}
       {selectedRecipes.length > 0 && (
         <DeleteButton
+          className="fixed right-20 top-7"
           onClick={() => {
             deleteRecipe();
             clear();
