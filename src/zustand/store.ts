@@ -6,13 +6,14 @@ export type Recipe = {
   name: string;
   description: string;
   image_url: string;
-  // Add other properties as needed
 };
 
 type Store = {
   recipes: Recipe[];
+  recipe: { [key: string]: any };
   selectedRecipes: Recipe[];
   fetchRecipes: (page: number) => Promise<void>;
+  fetchOneRecipe: (id: string) => Promise<{ [key: string]: any }>;
   selectRecipe: (recipe: Recipe) => void;
   deselectRecipe: (recipe: Recipe) => void;
   deleteSelectedRecipes: () => void;
@@ -21,6 +22,7 @@ type Store = {
 
 export const useStore = create<Store>((set) => ({
   recipes: [],
+  recipe: {},
   selectedRecipes: [],
   fetchRecipes: async (page: number) => {
     try {
@@ -43,6 +45,18 @@ export const useStore = create<Store>((set) => ({
           })),
         ],
       }));
+    } catch (error) {
+      console.error(error);
+      // Handle error state
+    }
+  },
+  fetchOneRecipe: async (id: string) => {
+    try {
+      const response = await fetch(`https://api.punkapi.com/v2/beers/${id}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch recipe");
+      }
+      return await response.json();
     } catch (error) {
       console.error(error);
       // Handle error state
