@@ -39,7 +39,7 @@ const BeerPage = () => {
 
   return (
     <section className="flex justify-around items-center w-full">
-      <article className="flex flex-col items-center h-auto w-1/2">
+      <article className="flex flex-col items-center self-start h-auto w-1/2">
         <h1 className="text-4xl max-w-lg font-bold p-2 bg-amber-500 rounded my-10">
           {name}
           <span className="bg-blue-500 rounded p-1 text-lg ml-2 relative top-3">
@@ -86,7 +86,7 @@ const BeerPage = () => {
         </section>
         <section className="w-[80%] text-center">
           <h1 className="text-3xl my-2">Melt</h1>
-          <table className={`w-full ${borderStyle}`}>
+          <table className={`w-full mb-5 ${borderStyle}`}>
             <thead className={`${borderStyle}`}>
               <tr className="bg-cyan-500">
                 <th className={`${borderStyle}`}>Name</th>
