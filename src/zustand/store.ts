@@ -1,4 +1,3 @@
-// store.ts
 import { create } from "zustand";
 
 export type Recipe = {
@@ -17,23 +16,24 @@ type Store = {
   selectRecipe: (recipe: Recipe) => void;
   deselectRecipe: (recipe: Recipe) => void;
   deleteSelectedRecipes: () => void;
-  clear: () => void;
+  clearSelected: () => void;
 };
 
 export const useStore = create<Store>((set) => ({
   recipes: [],
   recipe: {},
   selectedRecipes: [],
+  //state for fetching all the recipes
   fetchRecipes: async (page: number) => {
     try {
       const response = await fetch(
         `https://api.punkapi.com/v2/beers?page=${page}`
       );
-      if (!response.ok) {
-        throw new Error("Failed to fetch recipes");
-      }
+      if (!response.ok) new Error("Failed to fetch recipes");
+
       const data = await response.json();
 
+      //new respond data will append to previous(this is for "always 15 recipes rendered")
       set((prevState) => ({
         recipes: [
           ...prevState.recipes,
@@ -47,26 +47,27 @@ export const useStore = create<Store>((set) => ({
       }));
     } catch (error) {
       console.error(error);
-      // Handle error state
     }
   },
+  //state for fetching recipe by id
   fetchOneRecipe: async (id: string) => {
     try {
       const response = await fetch(`https://api.punkapi.com/v2/beers/${id}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch recipe");
-      }
+
+      if (!response.ok) new Error("Failed to fetch recipe");
+
       return await response.json();
     } catch (error) {
       console.error(error);
-      // Handle error state
     }
   },
+  //state for selecting recipe in list
   selectRecipe: (recipe) => {
     set((state) => ({
       selectedRecipes: [...state.selectedRecipes, recipe],
     }));
   },
+  //state for deselecting recipe in list
   deselectRecipe: (recipe) => {
     set((state) => ({
       selectedRecipes: state.selectedRecipes.filter(
@@ -74,6 +75,7 @@ export const useStore = create<Store>((set) => ({
       ),
     }));
   },
+  //state for deleting selected recipe from list
   deleteSelectedRecipes: () => {
     set((state) => ({
       recipes: state.recipes.filter(
@@ -82,7 +84,8 @@ export const useStore = create<Store>((set) => ({
       selectedRecipes: [],
     }));
   },
-  clear: () => {
+  //state for clearing selected list
+  clearSelected: () => {
     set({ selectedRecipes: [] });
   },
 }));

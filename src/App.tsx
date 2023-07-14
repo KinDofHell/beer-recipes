@@ -12,9 +12,11 @@ function App() {
   const fetchRecipes = useStore((state) => state.fetchRecipes);
   const recipes = useStore((state) => state.recipes);
 
+  //state for storing current page for request
   const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
+    //if there are less than 15 recipes to render - new request with current page + 1
     if (recipes.length < 15) {
       setPage(page + 1);
       fetchRecipes(page).then(() => console.log("Recipes loaded!"));

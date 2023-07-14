@@ -19,10 +19,12 @@ const BeerPage = () => {
   const { id } = useParams();
   const [data, setData] = useState<{ [key: string]: any }>();
 
+  //Fetch one recipe by id and store it in "data"
   useEffect(() => {
     if (id) fetchOneRecipe(id).then((res) => setData(res.shift()));
   }, [id]);
 
+  //destructuring from data object for convenience using
   const {
     name,
     image_url,
@@ -32,8 +34,7 @@ const BeerPage = () => {
     ingredients,
   } = data || {};
 
-  data && console.log(ingredients.malt);
-
+  //Variable for reusable styles for table
   const borderStyle: string = "border border-solid border-black";
 
   return (

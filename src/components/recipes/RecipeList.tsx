@@ -1,19 +1,21 @@
-// RecipeList.tsx
 import { MouseEvent } from "react";
 import { useStore, Recipe } from "../../zustand/store.ts";
-import RecipeItem from "./RecipeItem.tsx";
-import DeleteButton from "../ui/buttons/DeleteButton.tsx"; // Import the Recipe type from the store
 
+import RecipeItem from "./RecipeItem.tsx";
+import DeleteButton from "../ui/buttons/DeleteButton.tsx";
+
+//Component for rendering all the beers
 const RecipeList = () => {
-  const recipes = useStore((state: { recipes: Recipe[] }) => state.recipes); // Provide the correct type for state
+  const recipes = useStore((state: { recipes: Recipe[] }) => state.recipes);
   const selectedRecipes = useStore(
     (state: { selectedRecipes: Recipe[] }) => state.selectedRecipes
-  ); // Provide the correct type for state
-  const selectRecipe = useStore((state) => state.selectRecipe); // Keep the selectRecipe function as is
-  const deselectRecipe = useStore((state) => state.deselectRecipe); // Keep the deselectRecipe function as is
-  const deleteRecipe = useStore((state) => state.deleteSelectedRecipes); //
-  const clear = useStore((state) => state.clear); // Access the clear function
+  );
+  const selectRecipe = useStore((state) => state.selectRecipe);
+  const deselectRecipe = useStore((state) => state.deselectRecipe);
+  const deleteRecipe = useStore((state) => state.deleteSelectedRecipes);
+  const clearSelected = useStore((state) => state.clearSelected);
 
+  //Method for selecting and deselecting items
   const handleRecipeClick = (
     event: MouseEvent<HTMLDivElement>,
     recipe: Recipe
@@ -48,7 +50,7 @@ const RecipeList = () => {
           className="fixed right-20 top-7"
           onClick={() => {
             deleteRecipe();
-            clear();
+            clearSelected();
           }}
         />
       )}
