@@ -21,16 +21,16 @@ const RecipeItem: FC<RecipeItemProps> = ({
   return (
     <Link
       to={`/beer-item/${id}`}
-      className={`w-[60%] h-80 flex items-center justify-around px-16 py-6 rounded-2xl mb-5 ${
+      className={`h-min-[700px] w-[400px] flex flex-col items-center justify-center mb-5 p-4 rounded ${
         isSelected ? "bg-blue-500" : "bg-amber-400"
       }`}
       onContextMenu={onContextMenu}
     >
-      <article className="text-center w-1/2">
+      <img src={image_url} alt={name} className="h-[300px] mb-10" />
+      <article className="text-center w-full">
         <h2 className="text-4xl ">{name}</h2>
         <p>{description}</p>
       </article>
-      <img src={image_url} alt={name} className="h-[80%]" />
     </Link>
   );
 };

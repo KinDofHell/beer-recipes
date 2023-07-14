@@ -31,7 +31,7 @@ const RecipeList = () => {
   };
 
   return (
-    <section className="w-full flex flex-col items-center">
+    <section className="w-full flex justify-around flex-wrap items-center">
       {recipes.slice(0, 15).map((recipe) => (
         <RecipeItem
           key={recipe.id}
